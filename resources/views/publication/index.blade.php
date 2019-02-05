@@ -1,0 +1,64 @@
+@extends('layouts.app')
+@section('content')
+  <div class="container" ng-controller="publication">
+  	<h2 class="text-center">Publication dans lentreprise</h2>
+<div class="m-auto">
+<a href="{{ route('publication.create') }}" class="btn btn-outline-primary">Nouvelle publication</a>
+<hr>
+</div>
+  	<div class="card shadow-lg">
+  	    <div class="card-body">
+@foreach ($publication as $pub)
+  <div class="row pb-3">
+      <div class="col-md-2">
+          <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+          <p class="text-secondary text-center">{{$pub->created_at}}</p>
+        @if ($pub->user_id=Auth()->user()->id)
+          <p ><a href="{{ route('publication.edit',$pub) }}">Modifier</a></p>
+        @endif
+      </div>
+      <div class="col-md-10">
+          <p>
+              <a class="float-left" href=""><strong>{{$pub->user->name}}</strong></a>
+              {{-- <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+              <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+              <span class="float-right"><i class="text-warning fa fa-star"></i></span> --}}
+              <div class="p-2">
+                <h4>{{$pub->url}}</h4>
+              </div>
+         </p>
+
+          <p>{{$pub->body}}</p>
+          <p>
+              <a class="float-right btn btn-outline-primary ml-2" href="{{ route('publication.show',$pub) }}"> <i class="badge">{{ count($pub->comments) }}</i> Reponse</a>
+  @if ($pub->photo)
+                <a class="float-right btn text-white btn-danger" ng-click='pdf("{{ asset("files//".$pub->photo."//".$pub->photo) }}")'>fichier <i class="fa fa-pdf"></i></a>
+  @endif
+   </p>
+      </div>
+  </div>
+@endforeach
+  	    </div>
+  	</div>
+    <div class="center">
+              {{ $publication->links() }}
+    </div>
+  </div>
+  <!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Fichier</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe src="__pdf_name__" width="100%" height="100%" > </iframe>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection

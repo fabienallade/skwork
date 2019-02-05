@@ -1,0 +1,18 @@
+<!--
+<div class="tab-pane" ng-show="selected">
+  <h4>{{title}}</h4>
+  <div ng-transclude></div>
+</div>
+-->
+<div class="inbox_chat" ng-show="selected">
+  <div class="chat_list active_chat">
+    <div class="chat_people" ng-repeat="am in ami">
+      <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+      <div class="chat_ib">
+        <h5>__am.name__ <span class="chat_date">Dec 25</span></h5>
+        <p></p>
+      </div>
+    </div>
+      <div ng-transclude></div>
+  </div>
+</div>
