@@ -13,9 +13,12 @@ try {
   require('bootstrap');
   require('angular');
   require('angular-animate');
+  require('angular-route');
   require('angularjs-socket-io');
   require('angular-sweetalert');
   require('sweetalert');
+  require('moment');
+  require('angular-moment');
   require('socket.io-client');
 } catch (e) {}
 
@@ -60,3 +63,10 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+// document.addEventListener("turbolinks:load", function() {
+//   $.ajaxSetup({
+//     headers: {
+//       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+//   });
+// })

@@ -1,7 +1,9 @@
 var app = angular.module("app", [
     "ysilvela.socket-io",
     "ngAnimate",
-    "oitozero.ngSweetAlert"
+    "oitozero.ngSweetAlert",
+    "angularMoment",
+    "ngRoute"
   ])
   .config(['$interpolateProvider',
     function($interpolateProvider) {
@@ -9,16 +11,23 @@ var app = angular.module("app", [
       $interpolateProvider.endSymbol('__');
     }
   ]);
-/* app.config(function ($routeProvider) {
-     $routeProvider.when('/', {
-         controller: 'mainController',
-         templateUrl: '../views/main.php'
-     }).when('/about', {
-         templateUrl: '../views/home/about.html'
-     }).otherwise({
-         redirectTo: '/'
-     });
- });*/
+app.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
+    $routeProvider
+      .when('/Book/:bookId', {
+        templateUrl: 'book.html',
+        controller: 'BookCtrl',
+        controllerAs: 'book'
+      })
+      .when('/Book/:bookId/ch/:chapterId', {
+        templateUrl: 'chapter.html',
+        controller: 'ChapterCtrl',
+        controllerAs: 'chapter'
+      });
+    $locationProvider.html5Mode(false);
+
+  }
+])
 app.factory('Users', function($q, $http) {
   var self = {
 
@@ -509,15 +518,20 @@ app.controller('discussion', function($scope, socket, $http, data, SweetAlert) {
   socket.on('connect', function(result) {
     console.log(result);
   });
-  data.get("/api/get_user").then(function(result) {
+  // data.get("/api/get_user").then(function(result) {
+  // })
+  data.get("/api/get_last1").then(function(result) {
     $scope.ami = result;
+    console.log(result);
   })
 
   async function getLast(id) {
     var data1 = {};
     data1 = await data.get("/api/get_last", id);
-    console.log(data1);
     return data1;
+  }
+  $scope.show_message = function(id) {
+    console.log(id);
   }
   $scope.get_last = function(id) {
     return getLast(id);

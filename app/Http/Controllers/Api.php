@@ -9,6 +9,7 @@ use App\Publication;
 use App\Comment;
 use App\Tache;
 use App\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -109,12 +110,6 @@ class Api extends Controller
       $data=User::where('id','!=',Auth::user()->id)->get();
         return Response::json($data);
     }
-    public function get_last(Request $request)
-    {
-      $id=$request->input('data');
-      $data=Message::where('receiver_id',$id)->orWhere('envoi_id',$id )->where('envoi_id',Auth::user()->id)->orWhere('receiver_id',Auth::user()->id)->latest()->first();
-      return Response::json($data);
-    }
     public function get_user(Request $request)
     {
       $data=User::where('id','!=',Auth::user()->id)->get();
@@ -148,5 +143,33 @@ class Api extends Controller
       $post =Publication::find($id);
       $comment = $post->comments();
         return Response::json($comment);
+    }
+    public function get_last(Request $request)
+    {
+      $id=$request->input('data');
+      $data=Message::where('receiver_id',$id)->orWhere('envoi_id',$id )->where('envoi_id',Auth::user()->id)->orWhere('receiver_id',Auth::user()->id)->latest()->get()->id;
+      return Response::json($data);
+    }
+    public function get_last1(Request $request)
+    {
+      $data=DB::table('messages')
+              ->join('users', 'users.id', '=', 'messages.envoi_id')
+              ->where('envoi_id','<>',Auth::user()->id)
+             ->select('users.*','messages.messages','messages.created_at as creation')
+             ->distinct('users.id')
+             ->get();
+        return Response::json($data);
+    }
+    public function get_last_message(Request $request)
+    {
+
+             $data=DB::table('users')
+                     ->join('messages','users.id', '=', 'messages.envoi_id')
+                     ->where('envoi_id','<>',Auth::user()->id)
+                    ->select('users.*','messages.messages','messages.created_at as creation')
+                    ->distinct('messages.envoi_id')
+                    ->latest("creation")
+                    ->get();
+        return Response::json($data);
     }
 }

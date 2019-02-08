@@ -33,11 +33,6 @@ Route::get('connect', function () {
 
 
 
-Route::post('/api/users/create','UsersController@addUser');
-Route::get('/api/users/all','UsersController@all');
-Route::get('/api/users/delete/{user_id}','UsersController@deleteUser');
-Route::post('/api/users/update','UsersController@updateUser');
-
 Auth::routes();
 
 
@@ -46,6 +41,7 @@ Route::get('/profile', 'HomeController@profile')->name('profile');
 Route::resource('Publication', 'PublicationController')->names([
     'index' => 'publication'
 ])->middleware('auth');
+Route::resource('document', 'DocumentController')->middleware('auth');
    Route::post('/comments/{publication}',"PublicationController@comments")->name('comments');
 Route::get('/rapport',"PublicationController@rapport")->name("rapport")->middleware('auth');
 Route::get('/commentaire/{id}',"PublicationController@commentaire")->name("commentaire")->middleware('auth');
@@ -70,22 +66,8 @@ Route::prefix('/api')->middleware('auth')->group(function (){
 
      Route::post('/user',"Api@user")->name("user");
      Route::post('/get_last',"Api@get_last")->name("get_last");
+     Route::post('/get_last1',"Api@get_last1")->name("get_last1");
 
     Route::post('/get_commentaire/{id}',"Api@get_commentaire")->name("get_commentaire");
     Route::post('/post_commentaire/{id}',"Api@post_commentaire")->name("post_commentaire");
-});
-
-
-
-// ici le code pour le loadig des pages angular et autres
-Route::group(array('prefix' => 'partials'), function(){
-
-    Route::get('/my-pane', function()
-    {
-        return File::get(app_path().'Views/partials/vendorJs/my-pane.html');
-    });
-    Route::get('/my-tabs', function()
-    {
-        return File::get(app_path().'Views/partials/vendorJs/my-tabs.html');
-    });
 });

@@ -19,12 +19,12 @@
               </div>
             </div>
             <div class="inbox_chat">
-              <div class="chat_list active_chat">
-                <div class="chat_people" ng-repeat="am in ami">
+              <div class="chat_list active_chat" ng-repeat="am in ami">
+                <div class="chat_people" ng-click="show_message(am.id)">
                   <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                   <div class="chat_ib">
-                    <h5>__am.name__ <span class="chat_date">Dec 25</span></h5>
-                    <p></p>
+                    <h5>__am.name__ <span class="chat_date">__am.creation | amDurationFormat : 'hour' __</span></h5>
+                    <p>__am.messages__</p>
                   </div>
                 </div>
               </div>
@@ -67,14 +67,4 @@
           </div>
         </div>
       </div></div>
-
-      <my-tabs>
-      <my-pane title="Hello">
-        <p>Lorem ipsum dolor sit amet</p>
-      </my-pane>
-      <my-pane title="World">
-        <em>Mauris elementum elementum enim at suscipit.</em>
-        <p><a href ng-click="i = i + 1">counter: __i || 0__</a></p>
-      </my-pane>
-    </my-tabs>
 @endsection

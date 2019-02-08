@@ -14,4 +14,8 @@ class Message extends Model
     {
         return Carbon::createFromFormat("Y-m-d H:i:s",$value)->diffForHumans();
     }
+    public function user()
+    {
+      return $this->belongsTo("App\User");
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class UsersController extends BaseController {
+class UsersController  {
 
     public function index(){
         return View::make('index',['rows'=>User::all(),'window'=>new \KodeInfo\JSHelper]);
@@ -14,7 +14,7 @@ class UsersController extends BaseController {
         Event::fire(\KodeInfo\Handlers\UserUpdatedEventHandler::EVENT, array(User::all()));
     }
 
-    public function updateUser(){ 
+    public function updateUser(){
         $user=User::find(Input::get('id'));
         $user->name = Input::get('name');
         $user->email = Input::get('email');
