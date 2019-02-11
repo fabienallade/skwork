@@ -13,7 +13,7 @@
 {{--<script src="{{ asset('js/all.js') }}" defer></script>--}}
 
     <style media="screen">
-      .alert{
+/*      .alert{
         position: fixed;
     bottom: 0px;
     z-index: 9999;
@@ -31,7 +31,7 @@
     top: 95vh;
     margin-top: -60px;
     visibility: visible;
-      }
+      }*/
     </style>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -44,8 +44,8 @@
 <body ng-app="app" ng-cloak="true" class="">
   @include('flash::message')
     <div id="app" class="">
-        <nav class="navbar navbar-expand-md navbar-dark navbar-laravel shadow-xl bg-success">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-xl navbar-dark navbar-laravel  bg-success">
+            <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -57,26 +57,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">
-                            Emploi du temps
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ route('publication') }}">
-                            Publications
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                      <a class="nav-link" href="{{ route('discussion',Auth::user()->id) }}">
-                            Messages
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ route('document.index') }}">
-                            Documents
-                        </a>
-                      </li>
+
                     </ul>
 
               @endauth
@@ -84,6 +65,28 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">
+                                    <i class="fa fa-th-list"></i>  Emploi du temps
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('publication') }}">
+                                 <i class="fa fa-book"></i>   Publications
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('discussion',Auth::user()->id) }}">
+                                    Messages
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('document.index') }}">
+                                    Documents
+                                </a>
+                            </li>
+                        @endauth
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -94,7 +97,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <i class="fa fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -123,7 +126,7 @@
     </div>
 </body>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="http://localhost:4000/socket.io/socket.io.js"></script>
 <!-- Scripts -->
 {{-- <script>
 $('div.alert').not('.alert-important').delay(3000).fadeOut(350);

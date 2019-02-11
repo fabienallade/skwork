@@ -15,7 +15,7 @@
       </ul>
   </div>
 @endif
-  <div class="card-body">
+  <div class="card-body" ng-controller="create_pub">
   <form class="" action="{!! route('publication.store') !!}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group">
@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
           <label for="titre">Corps  de la publication</label>
-          <textarea name="body" rows="8" cols="80" class="form-control">
+          <textarea  name="body" rows="8" cols="80" class="form-control">
             {{ old('body') }}
           </textarea>
         </div>

@@ -49,11 +49,11 @@
       <div class="modal-body">
         <form  class="form" name="form_modal">
                       <div class="form-group">
-                        <label for="name" style="color: white">Nom</label>
-                          <input type="text" class="form-control" ng-model="rapport.name">
+                        <label for="name">Nom</label>
+                          <input type="text" class="form-control " disabled="true" ng-model="rapport.name">
                       </div>
                       <div class="form-group">
-                            <label for="text" style="color: white">Ecrire le rapport ici</label>
+                            <label for="text">Ecrire le rapport ici</label>
                             <textarea name="text" id="text" cols="100" rows="10" ng-model="rapport.rapport" class="form-control"></textarea>
                         </div>
                     <hr>
@@ -82,11 +82,11 @@
   <div class="modal-body">
     <form  class="form" name="form_modal">
                   <div class="form-group">
-                    <label for="name" style="color: white">Nom</label>
-                      <input type="text" class="form-control" ng-model="rapport.name">
+                    <label for="name" >Nom</label>
+                      <input type="text" class="form-control" disabled="true" ng-model="rapport.name">
                   </div>
                   <div class="form-group">
-                        <label for="text" style="color: white">Ecrire le rapport ici</label>
+                        <label for="text" >Ecrire le rapport ici</label>
                         <textarea name="text" id="text" cols="100" rows="10" ng-model="rapport.rapport" class="form-control"></textarea>
                     </div>
                 <hr>

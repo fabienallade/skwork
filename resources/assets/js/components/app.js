@@ -3,7 +3,10 @@ var app = angular.module("app", [
     "ngAnimate",
     "oitozero.ngSweetAlert",
     "angularMoment",
-    "ngRoute"
+    "ngRoute",
+    "toastr",
+    "ngSanitize",
+    "angularTrix"
   ])
   .config(['$interpolateProvider',
     function($interpolateProvider) {
@@ -28,52 +31,21 @@ app.config(['$routeProvider', '$locationProvider',
 
   }
 ])
-app.factory('Users', function($q, $http) {
-  var self = {
-
-  };
-
-  self.create = function(user) {
-    var d = $q.defer();
-    $http.post('/api/users/create', user).
-    success(function(data) {
-      d.resolve(data);
+app.config(function(toastrConfig) {
+    angular.extend(toastrConfig, {
+        autoDismiss: false,
+        containerId: 'toast-container',
+        maxOpened: 0,
+        newestOnTop: true,
+        positionClass: 'toast-bottom-right',
+        preventDuplicates: false,
+        preventOpenDuplicates: false,
+        target: 'body'
     });
-    return d.promise;
-  };
-
-  self.update = function(user) {
-    var d = $q.defer();
-    $http.post('/api/users/update', user).
-    success(function(data) {
-      d.resolve(data);
-    });
-    return d.promise;
-  };
-
-  self.all = function() {
-    var d = $q.defer();
-    $http.get('/api/users/all').
-    success(function(data) {
-      d.resolve(data);
-    });
-    return d.promise;
-  };
-
-  self.delete = function(user_id) {
-    var d = $q.defer();
-    $http.get('/api/users/delete/' + user_id).
-    success(function(data) {
-      d.resolve(data);
-    });
-    return d.promise;
-  };
-
-  return self;
 });
 
 app.factory('socket', function($rootScope) {
-  var socket = io.connect('http://127.0.0.1:3000');
+  var socket = io.connect('http://127.0.0.1:4000');
   return {
     on: function(eventName, callback) {
       socket.on(eventName, function() {
@@ -188,6 +160,9 @@ app.factory('data', function($http, $q) {
 
   return factory
 });
+app.controller('create_pub',function ($scope) {
+  $scope.foo="fabien"
+})
 app.controller("fab", function($scope, $mdDialog, data, $location) {
   $scope.publication = {}
 
@@ -229,6 +204,11 @@ app.controller("fab", function($scope, $mdDialog, data, $location) {
 
 })
 
+app.controller('inscrit', function($scope, data, $http) {
+    data.get(base_url + "api/postes").then(function(result) {
+        $scope.occupation_ = result;
+    })
+})
 app.controller('fire', function($scope, socket) {
   $scope.message = "fabien fait des putain de calcul de ouf"
   socket.on('event-channel', function(data) {
@@ -241,7 +221,8 @@ app.controller('comments', function($scope, $http, data) {
   $scope.body;
 
   function get() {
-    data.get(base_url + "api/get_commentaire/" + id).then(function(result) {
+    data.get(base_url + "api/get_commentaire/" + id).then(function(
+      result) {
       console.log(result);
     })
   }
@@ -304,7 +285,8 @@ app.controller('comments', function($scope, $http, data) {
   $scope.body;
 
   function get() {
-    data.get(base_url + "api/get_commentaire/" + id).then(function(result) {
+    data.get(base_url + "api/get_commentaire/" + id).then(function(
+      result) {
       console.log(result);
     })
   }
@@ -320,7 +302,8 @@ app.controller('comments', function($scope, $http, data) {
     }
   }
 })
-app.controller("todo", function($scope, data, $http) {
+app.controller("todo", function($scope, data, $http,toastr) {
+
   $scope.todo = []
   data.get(base_url + "api/get_task").then(function(result) {
     $scope.todo = result;
@@ -396,7 +379,8 @@ app.controller("todo", function($scope, data, $http) {
   }
   $scope.delete = function(todo) {
     if (todo) {
-      var confirm = window.confirm("Etes vous sur de vouloir effacer");
+      var confirm = window.confirm(
+        "Etes vous sur de vouloir effacer");
       if (confirm) {
         data.cret(base_url + "api/delete_task", todo);
       } else {
@@ -513,7 +497,8 @@ app.controller('rapport', function($scope, data) {
     }
   }
 })
-app.controller('discussion', function($scope, socket, $http, data, SweetAlert) {
+app.controller('discussion', function($scope, socket, $http, data,
+  SweetAlert) {
 
   socket.on('connect', function(result) {
     console.log(result);

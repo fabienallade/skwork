@@ -6,9 +6,9 @@
       </div>
   @endif
 <div class="container" ng-controller="todo">
-    <div class="row justify-content-center">
-        <div class="col-md-12 shadow-lg">
-            <div class="card ">
+    <div class="row justify-content-center pt-4">
+        <div class="col-md-12 p-0">
+            <div class="card shadow-lg ">
                 <div class="card-header">Emploi du temps de ce {{now()->format("Y/m/d")}}
                    <a href="{{route("rapport")}}" class="float-right">Rapport</a>
                 </div>
@@ -18,8 +18,8 @@
                             <div class="h p-1">
                                 <span>__to.name__</span>
                                 <div class="float-right">
-                                    <button class="btn btn-success" ng-click="edit(to)"><i class="">edit</i></button>
-                                    <button class="btn btn-danger" ng-click="delete(to)"><i class="fa fa-home">delete</i></button>
+                                    <button class="btn btn-success" ng-click="edit(to)"><i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger" ng-click="delete(to)"><i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -29,9 +29,9 @@
                             </div>
                         </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer p-0">
                   <form class="form-inline m-0 p-0" ng-submit="submit(todos)" name="form" novalidate>
-                          <div class="form-group col ">
+                          <div class="form-group p-0 col ">
                               <input type="text" ng-model="todos.name" name="name" class="form-control col"  required>
                               <div class="invalid-feedback" ng-show="form.$submitted && form.name.$touched">
                                   <div class="invalid-feedback" ng-show="form.name.$error.required">

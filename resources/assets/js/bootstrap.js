@@ -20,6 +20,9 @@ try {
   require('moment');
   require('angular-moment');
   require('socket.io-client');
+  require('angular-toastr');
+  require('angular-sanitize');
+  require('angular-trix');
 } catch (e) {}
 
 /**

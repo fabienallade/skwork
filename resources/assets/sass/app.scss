@@ -1,18 +1,33 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
+@import "themes/cosmo/variables";
+@import '~bootstrap/scss/bootstrap';
+@import "themes/cosmo/variables";
+@import "themes/cosmo/bootstrap.min.css";
+@import "themes/cosmo/bootswatch";
 //Font Awesome
-@import "node_modules/font-awesome/scss/font-awesome.scss";
+@import "~font-awesome/scss/font-awesome.scss";
 // Variables
-@import "variables";
+@import "~angular-toastr/dist/angular-toastr.min.css";
+ @import "variables";
 
-@import "node_modules/angular-sweetalert/node_modules/sweetalert/lib/sweet-alert.scss";
+@import "~angular-sweetalert/node_modules/sweetalert/lib/sweet-alert.scss";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
-.body{
-  background-color: white;
+// @import '~bootstrap/scss/bootstrap';
+/*ici je met tout le code pour refaire le toast qui est dans angular*/
+#toast-container{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.toast{
+  &-error{
+    background-color: red;
+  }
+}
+body{
+  background-color: #f1fdfb;
 }
 .navbar-laravel{
   background-color: #fff;
@@ -178,7 +193,6 @@ img{ max-width:100%;}
 
 // ici le code pour la partie des differents documents
 body{font-family: 'Open Sans', sans-serif;}
-	@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 	.mail-box {
     border-collapse: collapse;
     border-spacing: 0;
@@ -543,4 +557,79 @@ ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+}
+.login-page{
+	// padding:90px 70px 50px 70px;
+  padding-top:90px;
+.hr{
+  height:2px;
+	margin:10px 0 0px 0;
+	background:whitesmoke;
+}
+}
+.sidebar{
+  .admin-sidebar-review {
+    background-color: #fff;
+    width: 225px;
+    min-height: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+    .sidebar-header {
+      padding-top: 4px;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      padding-left: 20px;
+      overflow: hidden;
+      .logo {
+        padding: 2px;
+        height: 50px;
+        width: 97px;
+        vertical-align: middle;
+        margin-right: 15px;
+        margin-left: 15px;
+      }
+    }
+    .user-pic {
+      padding: 2px;
+      overflow: hidden;
+      vertical-align: middle;
+      margin: 5px auto 10px;
+    }
+    ul {
+      list-style: none;
+    }
+  }
+  .user-info > span {
+    display: block;
+    text-align: center;
+  }
+  .user-role {
+    color: black;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  element.style {
+  }
+  .dashboard .admin-sidebar-review {
+    background-color: #fff;
+    width: 225px;
+    min-height: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+  }
+  .h-100 {
+    height: 100% !important;
+  }
+  .position-fixed {
+    position: fixed !important;
+  }
+  .flex-column {
+    flex-direction: column !important;
+  }
+}
+.comment-card{
+  min-height: 300px;
 }
