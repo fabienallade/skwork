@@ -6,7 +6,8 @@ var app = angular.module("app", [
     "ngRoute",
     "toastr",
     "ngSanitize",
-    "angularTrix"
+    "angularTrix",
+    "ng-offline-js"
   ])
   .config(['$interpolateProvider',
     function($interpolateProvider) {
@@ -499,7 +500,6 @@ app.controller('rapport', function($scope, data) {
 })
 app.controller('discussion', function($scope, socket, $http, data,
   SweetAlert) {
-
   socket.on('connect', function(result) {
     console.log(result);
   });

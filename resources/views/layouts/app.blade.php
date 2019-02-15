@@ -43,7 +43,10 @@
 </head>
 <body ng-app="app" ng-cloak="true" class="">
   @include('flash::message')
-    <div id="app" class="">
+	@auth
+      @include('layouts.sidebar')
+      @endauth
+    <div id="app" class="p-0">
         <nav class="navbar navbar-expand-xl navbar-dark navbar-laravel  bg-success">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -120,9 +123,18 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4">
-            @yield('content')
+        @auth
+
+        @yield('content')
         </main>
+        <!-- page-content" -->
+    </div>
+  </div>
+  @else
+      <main class="py-4">
+          @yield('content')
+      </main>
+            @endauth
     </div>
 </body>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>

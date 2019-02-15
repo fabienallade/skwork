@@ -8,14 +8,18 @@ class Message extends Model
 {
 
   protected $fillable = [
-      'messages', 'receiver_id', 'envoi_id','created_at'
+      'body', 'conversation_id', 'user_id','type','created_at'
   ];
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromFormat("Y-m-d H:i:s",$value)->diffForHumans();
     }
-    public function user()
+    public function sender()
     {
-      return $this->belongsTo("App\User");
+        return $this->belongsTo("App\User", 'user_id');
+    }
+    public function conversation()
+    {
+        return $this->belongsTo("App\Conversation", 'conversation_id');
     }
 }

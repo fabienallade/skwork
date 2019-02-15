@@ -23,6 +23,8 @@ try {
   require('angular-toastr');
   require('angular-sanitize');
   require('angular-trix');
+  require('offline-js');
+  require('ng-offline-js');
 } catch (e) {}
 
 /**
@@ -73,3 +75,65 @@ if (token) {
 //     }
 //   });
 // })
+
+jQuery(function ($) {
+    Offline.options = {
+        // to check the connection status immediatly on page load.
+        checkOnLoad: false,
+
+        // to monitor AJAX requests to check connection.
+        interceptRequests: true,
+
+        // to automatically retest periodically when the connection is down (set to false to disable).
+        reconnect: {
+            // delay time in seconds to wait before rechecking.
+            initialDelay: 3,
+
+            // wait time in seconds between retries.
+            delay: 10
+        },
+
+        // to store and attempt to remake requests which failed while the connection was down.
+        requests: true
+    };
+    console.log(Offline.state);
+    console.log($( window ).width());
+    /*le code pour verifier si le connecter ou pas */
+/*    if (!navigator.onLine) {
+        alert('No internet Connection !!');
+    }else{
+        alert('la connexion existe bien sur mon pote');
+    }*/
+    $(".sidebar-dropdown > a").click(function() {
+        $(".sidebar-submenu").slideUp(200);
+        if (
+            $(this)
+                .parent()
+                .hasClass("active")
+        ) {
+            $(".sidebar-dropdown").removeClass("active");
+            $(this)
+                .parent()
+                .removeClass("active");
+        } else {
+            $(".sidebar-dropdown").removeClass("active");
+            $(this)
+                .next(".sidebar-submenu")
+                .slideDown(200);
+            $(this)
+                .parent()
+                .addClass("active");
+        }
+    });
+
+    $("#close-sidebar").click(function() {
+        $(".page-wrapper").removeClass("toggled");
+    });
+    $("#show-sidebar").click(function() {
+        $(".page-wrapper").addClass("toggled");
+    });
+
+
+
+
+});
