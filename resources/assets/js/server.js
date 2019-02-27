@@ -21,6 +21,6 @@ io.on('connection', function(socket) {
     redisClient.quit();
   });
 });
-http.listen(3000, function() {
-  console.log('Listening on Port 3000');
+http.listen(4000, function() {
+  console.log('Listening on Port 4000');
 });

@@ -8,6 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 <script src="{{ asset('js/app.js') }}" defer></script>
 {{--<script src="{{ asset('js/all.js') }}" defer></script>--}}
@@ -35,7 +36,6 @@
     </style>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
         <script>var base_url="";</script>
@@ -47,7 +47,7 @@
       @include('layouts.sidebar')
       @endauth
     <div id="app" class="p-0">
-        <nav class="navbar navbar-expand-xl navbar-dark navbar-laravel  bg-success">
+        <nav class="navbar navbar-expand-xl navbar-dark navbar-laravel  bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -98,6 +98,21 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <i class="fa fa-bell"></i> <span class="badge badge-danger">__
+                                        nombre
+                                        __</span> <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu" style="width: 300px;" aria-labelledby="navbarDropdown1">
+                                    <div>
+                                        Vous avez  __nombre__ dans __nbreDiscussion__ conversation
+                                    </div>
+                                    <div ng-repeat="n in notif">
+                                        <a href="" class="dropdown-item" ng-repeat="no in n">__no.sender.name__</a>
+                                    </div>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fa fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>

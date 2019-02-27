@@ -70,4 +70,13 @@ Route::prefix('/api')->middleware('auth')->group(function (){
 
     Route::post('/get_commentaire/{id}',"Api@get_commentaire")->name("get_commentaire");
     Route::post('/post_commentaire/{id}',"Api@post_commentaire")->name("post_commentaire");
+
+
+    /*i je mets tout le code pour la partie du travail au nivau des messages*/
+    Route::post('get_conversation',"ChatController@get_conversation")->name('get_conversation');
+    Route::post('get_message_conversation',"ChatController@get_message_conversation")->name('get_message_conversation');
+    Route::post('envoi_message',"ChatController@envoi_message")->name('envoi_message');
+    Route::post('get_notification',"ChatController@get_notification")->name('get_notification');
+    Route::post('get_notification',"ChatController@get_notification")->name('get_notification');
+
 });

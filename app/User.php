@@ -40,8 +40,13 @@ class User extends Authenticatable
     {
       return  $this->hasMany("App\Comment");
     }
-    public function poste()
+    public function postes()
     {
-        return  $this->hasOne("App\Poste",'id');
+        return  $this->hasOne("App\Poste",'id',"poste_id");
+    }
+
+    public function conversation()
+    {
+        return $this->hasOne("App\Conversation","id");
     }
 }

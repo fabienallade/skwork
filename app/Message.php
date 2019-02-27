@@ -10,6 +10,7 @@ class Message extends Model
   protected $fillable = [
       'body', 'conversation_id', 'user_id','type','created_at'
   ];
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromFormat("Y-m-d H:i:s",$value)->diffForHumans();

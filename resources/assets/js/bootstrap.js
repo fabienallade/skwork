@@ -98,6 +98,10 @@ jQuery(function ($) {
     };
     console.log(Offline.state);
     console.log($( window ).width());
+    if ($( window ).width()>320){
+        $(".page-wrapper").removeClass("toggled");
+        console.log(true);
+    }
     /*le code pour verifier si le connecter ou pas */
 /*    if (!navigator.onLine) {
         alert('No internet Connection !!');

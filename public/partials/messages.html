@@ -1,0 +1,28 @@
+<div class="mesgs">
+    <div class="msg_history" id="scrollArea" >
+        <div ng-repeat="mes in messagerie">
+            <div class="incoming_msg" ng-if="mes.sender.id!=id1">
+                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="received_msg">
+                    <div class="received_withd_msg">
+                        <p>__mes.body__</p>
+                        <span class="time_date">__mes.created_at__</span></div>
+                </div>
+            </div>
+            <div class="outgoing_msg" ng-if="mes.sender.id==id1">
+                <div class="sent_msg">
+                    <p>__mes.body__</p>
+                    <span class="time_date"> __mes.created_at__</span> </div>
+            </div>
+        </div>
+        <a id="bottom"></a>
+    </div>
+    <div class="type_msg">
+        <form action="">
+        <div class="input_msg_write">
+            <textarea name="name" rows="2" class="write_msg form-control" ng-model="message_envoi.body"  cols="80"></textarea>
+            <button class="msg_send_btn" ng-click="envoi_message()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true" ></i></button>
+        </div>
+        </form>
+    </div>
+</div>

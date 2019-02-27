@@ -10,7 +10,7 @@
   	    <div class="card-body">
 @foreach ($publication as $pub)
   <div class="row pb-3">
-      <div class="col-md-2">
+      <div class="col-md-2 text-center">
           <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
           <p class="text-secondary text-center">{{$pub->created_at}}</p>
         @if ($pub->user_id=Auth()->user()->id)
@@ -25,7 +25,7 @@
       <div class="col-md-10">
           <p class="pt-2">
               <a class="text-capitalize p-0" href=""><strong>{{$pub->user->name}}</strong></a>
-                <span class="float-right"> section {{$pub->user->poste->libelle}}</span>
+                <span class="float-right"> section {{$pub->user->postes->libelle}}</span>
               <div class="text-justify">
                 <h4>{{$pub->url}}</h4>
               </div>

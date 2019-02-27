@@ -8,9 +8,9 @@ class Poste extends Model
 {
     //
     protected $fillable = [
-        'libelle', 'created_at', 'updated_at'
+        'libelle', 'created_at', 'updated_at','id'
     ];
-    public function poste()
+    public function user()
     {
         return  $this->belongsTo("App\User","poste_id");
     }

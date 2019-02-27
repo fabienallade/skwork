@@ -20,11 +20,9 @@ class Event
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-      $this->data = array(
-         'power'=> '10'
-     );
+      $this->data = $data;
     }
 
     /**

@@ -15,6 +15,23 @@ var app = angular.module("app", [
       $interpolateProvider.endSymbol('__');
     }
   ]);
+app.run(function($rootScope,data,socket){
+    data.get("/api/get_notification").then(function(result) {
+        $rootScope.notif =result;
+        $rootScope.nombre=0;
+        $rootScope.nbreDiscussion=0;
+        angular.forEach($rootScope.notif,function (id) {
+            if (id.length>0){
+                $rootScope.nbreDiscussion++;
+            }
+            $rootScope.nombre+=id.length;
+            console.log(id)
+        } )
+        console.log($rootScope.nombre)
+        console.log(result);
+    })
+
+});
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider
@@ -27,7 +44,11 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'chapter.html',
         controller: 'ChapterCtrl',
         controllerAs: 'chapter'
-      });
+      }).when('/messages/:conversation_id',{
+        templateUrl: '/partials/messages.html',
+        controller: 'messages',
+        controllerAs: 'message'
+    });
     $locationProvider.html5Mode(false);
 
   }
@@ -499,30 +520,89 @@ app.controller('rapport', function($scope, data) {
   }
 })
 app.controller('discussion', function($scope, socket, $http, data,
-  SweetAlert) {
+  SweetAlert,$location) {
   socket.on('connect', function(result) {
     console.log(result);
   });
-  // data.get("/api/get_user").then(function(result) {
-  // })
-  data.get("/api/get_last1").then(function(result) {
-    $scope.ami = result;
-    console.log(result);
+    function getclass() {
+        data=$location.$$url.split('/messages/')[1]
+        $scope.active_chats=data;
+    }
+
+  data.get("/api/get_conversation").then(function(result) {
+    $scope.dernier_message = result;
   })
 
-  async function getLast(id) {
-    var data1 = {};
-    data1 = await data.get("/api/get_last", id);
-    return data1;
-  }
   $scope.show_message = function(id) {
     console.log(id);
+      $scope.active_chats=id;
   }
   $scope.get_last = function(id) {
     return getLast(id);
   }
+    getclass();
+
 
 })
+app.controller('messages',function ($scope,$routeParams,data,toastr,$anchorScroll,$timeout,socket) {
+    console.log($routeParams.conversation_id);
+    $scope.id=$routeParams.conversation_id;
+    $scope.active_chats=$routeParams.conversation_id;
+
+    socket.on('event-channel', function(data) {
+        var data=JSON.parse(data)
+        if(data.data.conversation_id==$scope.id && data.data.sender.id!=id1){
+            $scope.messagerie.push(data.data);
+            time()
+        }
+
+    });
+    function time(){
+        $timeout(function () {
+            var fabien=angular.element('#scrollArea')[0].scrollHeight
+            console.log(angular.element('#scrollArea').scrollTop(fabien))
+            console.log(fabien)
+        }, 1000);
+    }
+    time()
+
+    data.get("/api/get_message_conversation",$scope.id).then(function(result) {
+        $scope.messagerie = result;
+        console.log(result);
+    })
+
+    $scope.message_envoi={
+      body:"",
+        conversation_id:$routeParams.conversation_id,
+        user_id:id1,
+        type:"text"
+    }
+    $scope.envoi_message=function () {
+      if ($scope.message_envoi.body.length==0){
+        toastr.error("Veuillez ecrire avant d'envoyer le message");
+      } else {
+          data.get("/api/envoi_message",$scope.message_envoi).then(function(result) {
+              $scope.messagerie.push(result);
+              $scope.message_envoi.body=""
+              toastr.success("Message ENvoyer","votre message a ete bien envoyer")
+              console.log(result);
+          })
+          time()
+      }
+    }
+
+    async function getLast(id) {
+
+        var data1 = {};
+        data1 = await data.get("/api/get_message_conversation", id);
+        $scope.messagerie=data1;
+        return data1;
+    }
+    getLast($scope.id);
+
+
+})
+/*
 app.directive('myTabs', function() {
   return {
     restrict: 'E',
@@ -562,6 +642,7 @@ app.directive('myPane', function() {
     templateUrl: '/partials/my-pane.html'
   };
 });
+*/
 
 app.controller('inscrit', function($scope, data, $http) {
     data.get(base_url + "api/postes").then(function(result) {
