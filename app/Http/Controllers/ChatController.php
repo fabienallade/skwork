@@ -32,6 +32,24 @@ class ChatController extends Controller
         }
         return $fabien;
     }
+    public function get_user_conversation()
+    {
+      $fabien=[];
+      $data=Conversation_user::where("user_id",Auth::user()->id)->get();
+      foreach ($data as $user) {
+          $data1=["fabien"];
+          $i=(int) $user->conversation->id;
+          $toto=Conversation::find($i)->last_message;
+/*            array_add($data1,"last_message",json_encode($toto));*/
+          if ($user->conversation->private==true){
+              $id=Conversation_user::where("user_id","<>",Auth::user()->id)->where('conversation_id',$user->conversation->id)->get();
+              array_add($data1,"users_conversation",json_decode(User::where("id","<>",$id)->get()));
+          }
+          array_push($fabien,$data1);
+          array_push($fabien,$id);
+      }
+      return $fabien;
+    }
 
     public function get_message_conversation(Request $request)
     {

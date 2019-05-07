@@ -3,6 +3,9 @@
 <script>var id='{{ $id }}';var id1='{{ Auth::user()->id }}'</script>
   <div class="container" ng-controller="discussion" ng-init="id1='{{ Auth::user()->id }}'">
   <h3 class=" text-center">Messaging</h3>
+   <div class="">
+     <button type="button" class="btn btn-primary float-right" ng-click="new_conversation()">New Conversation</button>
+   </div>
   <div class="messaging">
         <div class="inbox_msg col row p-0">
           <div class="inbox_people col p-0">
@@ -42,5 +45,39 @@
 
             </div>
         </div>
-      </div></div>
+      </div>
+      {{-- work on dev modal --}}
+
+            <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nouvelle conversation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card card-header">
+                Creer une nouvelle conversation
+              </div>
+              <form>
+                <div class="form-group">
+                  <label for="sel">Selectionne une personne pour commencer la conversation</label>
+                <select class="form-control" name="">
+                  <option value="" ng-repeat="conv in user_conversation" ng-hide="conv.id==id1">__conv__</option>
+                </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+{{-- fin modal --}}
+    </div>
+
 @endsection

@@ -15,21 +15,21 @@ var app = angular.module("app", [
       $interpolateProvider.endSymbol('__');
     }
   ]);
-app.run(function($rootScope,data,socket){
-    data.get("/api/get_notification").then(function(result) {
-        $rootScope.notif =result;
-        $rootScope.nombre=0;
-        $rootScope.nbreDiscussion=0;
-        angular.forEach($rootScope.notif,function (id) {
-            if (id.length>0){
-                $rootScope.nbreDiscussion++;
-            }
-            $rootScope.nombre+=id.length;
-            console.log(id)
-        } )
-        console.log($rootScope.nombre)
-        console.log(result);
+app.run(function($rootScope, data, socket) {
+  data.get("/api/get_notification").then(function(result) {
+    $rootScope.notif = result;
+    $rootScope.nombre = 0;
+    $rootScope.nbreDiscussion = 0;
+    angular.forEach($rootScope.notif, function(id) {
+      if (id.length > 0) {
+        $rootScope.nbreDiscussion++;
+      }
+      $rootScope.nombre += id.length;
+      console.log(id)
     })
+    console.log($rootScope.nombre)
+    console.log(result);
+  })
 
 });
 app.config(['$routeProvider', '$locationProvider',
@@ -44,26 +44,26 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'chapter.html',
         controller: 'ChapterCtrl',
         controllerAs: 'chapter'
-      }).when('/messages/:conversation_id',{
+      }).when('/messages/:conversation_id', {
         templateUrl: '/partials/messages.html',
         controller: 'messages',
         controllerAs: 'message'
-    });
+      });
     $locationProvider.html5Mode(false);
 
   }
 ])
 app.config(function(toastrConfig) {
-    angular.extend(toastrConfig, {
-        autoDismiss: false,
-        containerId: 'toast-container',
-        maxOpened: 0,
-        newestOnTop: true,
-        positionClass: 'toast-bottom-right',
-        preventDuplicates: false,
-        preventOpenDuplicates: false,
-        target: 'body'
-    });
+  angular.extend(toastrConfig, {
+    autoDismiss: false,
+    containerId: 'toast-container',
+    maxOpened: 0,
+    newestOnTop: true,
+    positionClass: 'toast-bottom-right',
+    preventDuplicates: false,
+    preventOpenDuplicates: false,
+    target: 'body'
+  });
 });
 
 app.factory('socket', function($rootScope) {
@@ -182,8 +182,8 @@ app.factory('data', function($http, $q) {
 
   return factory
 });
-app.controller('create_pub',function ($scope) {
-  $scope.foo="fabien"
+app.controller('create_pub', function($scope) {
+  $scope.foo = "fabien"
 })
 app.controller("fab", function($scope, $mdDialog, data, $location) {
   $scope.publication = {}
@@ -227,9 +227,9 @@ app.controller("fab", function($scope, $mdDialog, data, $location) {
 })
 
 app.controller('inscrit', function($scope, data, $http) {
-    data.get(base_url + "api/postes").then(function(result) {
-        $scope.occupation_ = result;
-    })
+  data.get(base_url + "api/postes").then(function(result) {
+    $scope.occupation_ = result;
+  })
 })
 app.controller('fire', function($scope, socket) {
   $scope.message = "fabien fait des putain de calcul de ouf"
@@ -324,7 +324,7 @@ app.controller('comments', function($scope, $http, data) {
     }
   }
 })
-app.controller("todo", function($scope, data, $http,toastr) {
+app.controller("todo", function($scope, data, $http, toastr) {
 
   $scope.todo = []
   data.get(base_url + "api/get_task").then(function(result) {
@@ -520,126 +520,99 @@ app.controller('rapport', function($scope, data) {
   }
 })
 app.controller('discussion', function($scope, socket, $http, data,
-  SweetAlert,$location) {
+  SweetAlert, $location) {
   socket.on('connect', function(result) {
-    console.log(result);
+
   });
-    function getclass() {
-        data=$location.$$url.split('/messages/')[1]
-        $scope.active_chats=data;
-    }
+  $scope.new_conversation = function() {
+    $('.modal').modal("show");
+  }
+
+  function getclass() {
+    data = $location.$$url.split('/messages/')[1]
+    $scope.active_chats = data;
+  }
 
   data.get("/api/get_conversation").then(function(result) {
     $scope.dernier_message = result;
   })
 
+  data.get("/api/get_user_conversation").then((result) => {
+    console.log(result);
+    $scope.user_conversation = result[0].users_conversation;
+  })
+
   $scope.show_message = function(id) {
-    console.log(id);
-      $scope.active_chats=id;
+    // console.log(id);
+    $scope.active_chats = id;
   }
   $scope.get_last = function(id) {
     return getLast(id);
   }
-    getclass();
+  getclass();
 
 
 })
-app.controller('messages',function ($scope,$routeParams,data,toastr,$anchorScroll,$timeout,socket) {
-    console.log($routeParams.conversation_id);
-    $scope.id=$routeParams.conversation_id;
-    $scope.active_chats=$routeParams.conversation_id;
+app.controller('messages', function($scope, $routeParams, data, toastr,
+  $anchorScroll, $timeout, socket) {
+  // console.log($routeParams.conversation_id);
+  $scope.id = $routeParams.conversation_id;
+  $scope.active_chats = $routeParams.conversation_id;
 
-    socket.on('event-channel', function(data) {
-        var data=JSON.parse(data)
-        if(data.data.conversation_id==$scope.id && data.data.sender.id!=id1){
-            $scope.messagerie.push(data.data);
-            time()
-        }
-
-    });
-    function time(){
-        $timeout(function () {
-            var fabien=angular.element('#scrollArea')[0].scrollHeight
-            console.log(angular.element('#scrollArea').scrollTop(fabien))
-            console.log(fabien)
-        }, 1000);
-    }
-    time()
-
-    data.get("/api/get_message_conversation",$scope.id).then(function(result) {
-        $scope.messagerie = result;
-        console.log(result);
-    })
-
-    $scope.message_envoi={
-      body:"",
-        conversation_id:$routeParams.conversation_id,
-        user_id:id1,
-        type:"text"
-    }
-    $scope.envoi_message=function () {
-      if ($scope.message_envoi.body.length==0){
-        toastr.error("Veuillez ecrire avant d'envoyer le message");
-      } else {
-          data.get("/api/envoi_message",$scope.message_envoi).then(function(result) {
-              $scope.messagerie.push(result);
-              $scope.message_envoi.body=""
-              toastr.success("Message ENvoyer","votre message a ete bien envoyer")
-              console.log(result);
-          })
-          time()
-      }
+  socket.on('event-channel', function(data) {
+    var data = JSON.parse(data)
+    if (data.data.conversation_id == $scope.id && data.data.sender.id !=
+      id1) {
+      $scope.messagerie.push(data.data);
+      time()
     }
 
-    async function getLast(id) {
+  });
 
-        var data1 = {};
-        data1 = await data.get("/api/get_message_conversation", id);
-        $scope.messagerie=data1;
-        return data1;
+  function time() {
+    $timeout(function() {
+      var fabien = angular.element('#scrollArea')[0].scrollHeight
+        // console.log(angular.element('#scrollArea').scrollTop(fabien))
+        // console.log(fabien)
+    }, 1000);
+  }
+  time()
+
+  data.get("/api/get_message_conversation", $scope.id).then(function(result) {
+    $scope.messagerie = result;
+    // console.log(result);
+  })
+
+  $scope.message_envoi = {
+    body: "",
+    conversation_id: $routeParams.conversation_id,
+    user_id: id1,
+    type: "text"
+  }
+  $scope.envoi_message = function() {
+    if ($scope.message_envoi.body.length == 0) {
+      toastr.error("Veuillez ecrire avant d'envoyer le message");
+    } else {
+      data.get("/api/envoi_message", $scope.message_envoi).then(function(
+        result) {
+        $scope.messagerie.push(result);
+        $scope.message_envoi.body = ""
+        toastr.success("Message ENvoyer",
+            "votre message a ete bien envoyer")
+          // console.log(result);
+      })
+      time()
     }
-    getLast($scope.id);
+  }
+
+  async function getLast(id) {
+
+    var data1 = {};
+    data1 = await data.get("/api/get_message_conversation", id);
+    $scope.messagerie = data1;
+    return data1;
+  }
+  getLast($scope.id);
 
 
 })
-/*
-app.directive('myTabs', function() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    scope: {},
-    controller: ['$scope', function MyTabsController($scope) {
-      var panes = $scope.panes = [];
-
-      $scope.select = function(pane) {
-        angular.forEach(panes, function(pane) {
-          pane.selected = false;
-        });
-        pane.selected = true;
-      };
-
-      this.addPane = function(pane) {
-        if (panes.length === 0) {
-          $scope.select(pane);
-        }
-        panes.push(pane);
-      };
-    }],
-    templateUrl: '/partials/my-tabs.html'
-  };
-})
-app.directive('myPane', function() {
-  return {
-    require: '^^myTabs',
-    restrict: 'E',
-    transclude: true,
-    scope: {
-      title: '@'
-    },
-    link: function(scope, element, attrs, tabsCtrl) {
-      tabsCtrl.addPane(scope);
-    },
-    templateUrl: '/partials/my-pane.html'
-  };
-});
-*/

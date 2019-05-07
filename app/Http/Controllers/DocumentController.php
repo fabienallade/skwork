@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\c;
+use App\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
@@ -14,7 +15,9 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('document.index');
+      $document_receive=Document::where('receive_id',Auth::user()->id)->get();
+      $document_envoyer=Document::where('envoi_id',Auth::user()->id)->get();
+      return view('document.index',compact('document_receive',"document_envoyer"));
     }
 
     /**
@@ -35,7 +38,28 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+          $request->validate([
+            'document' => 'required',
+            'receive_id' => 'required',
+            // 'files'=>'file'
+          ]);
+
+          $document = $request->input('document');
+          $receive_id=$request->input('receive_id');
+          // $url=$request->input('url');
+          $document=new Document;
+          $document->document=$request->input('document');
+          $document->receive_id=$request->input("receive_id+");
+          // if ($file) {
+          //   $path = $request->file('files')->store(
+          //       'publication/'.$request->user()->id, 'files'
+          //   );
+          //   $publication->photo=$path;
+          // }
+          $document->envoi_id=Auth::user()->id;
+          $document->save();
+
+          return redirect('document');
     }
 
     /**

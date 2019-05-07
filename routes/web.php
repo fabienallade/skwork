@@ -73,6 +73,7 @@ Route::prefix('/api')->middleware('auth')->group(function (){
 
 
     /*i je mets tout le code pour la partie du travail au nivau des messages*/
+    Route::post('get_user_conversation',"ChatController@get_user_conversation")->name('get_user_conversation');
     Route::post('get_conversation',"ChatController@get_conversation")->name('get_conversation');
     Route::post('get_message_conversation',"ChatController@get_message_conversation")->name('get_message_conversation');
     Route::post('envoi_message',"ChatController@envoi_message")->name('envoi_message');

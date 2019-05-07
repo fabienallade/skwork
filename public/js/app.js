@@ -108915,9 +108915,11 @@ app.controller('rapport', function ($scope, data) {
   };
 });
 app.controller('discussion', function ($scope, socket, $http, data, SweetAlert, $location) {
-  socket.on('connect', function (result) {
-    console.log(result);
-  });
+  socket.on('connect', function (result) {});
+  $scope.new_conversation = function () {
+    $('.modal').modal("show");
+  };
+
   function getclass() {
     data = $location.$$url.split('/messages/')[1];
     $scope.active_chats = data;
@@ -108927,8 +108929,13 @@ app.controller('discussion', function ($scope, socket, $http, data, SweetAlert, 
     $scope.dernier_message = result;
   });
 
+  data.get("/api/get_user_conversation").then(function (result) {
+    console.log(result);
+    $scope.user_conversation = result[0].users_conversation;
+  });
+
   $scope.show_message = function (id) {
-    console.log(id);
+    // console.log(id);
     $scope.active_chats = id;
   };
   $scope.get_last = function (id) {
@@ -108967,7 +108974,7 @@ app.controller('messages', function ($scope, $routeParams, data, toastr, $anchor
     };
   }();
 
-  console.log($routeParams.conversation_id);
+  // console.log($routeParams.conversation_id);
   $scope.id = $routeParams.conversation_id;
   $scope.active_chats = $routeParams.conversation_id;
 
@@ -108978,18 +108985,19 @@ app.controller('messages', function ($scope, $routeParams, data, toastr, $anchor
       time();
     }
   });
+
   function time() {
     $timeout(function () {
       var fabien = angular.element('#scrollArea')[0].scrollHeight;
-      console.log(angular.element('#scrollArea').scrollTop(fabien));
-      console.log(fabien);
+      // console.log(angular.element('#scrollArea').scrollTop(fabien))
+      // console.log(fabien)
     }, 1000);
   }
   time();
 
   data.get("/api/get_message_conversation", $scope.id).then(function (result) {
     $scope.messagerie = result;
-    console.log(result);
+    // console.log(result);
   });
 
   $scope.message_envoi = {
@@ -109006,7 +109014,7 @@ app.controller('messages', function ($scope, $routeParams, data, toastr, $anchor
         $scope.messagerie.push(result);
         $scope.message_envoi.body = "";
         toastr.success("Message ENvoyer", "votre message a ete bien envoyer");
-        console.log(result);
+        // console.log(result);
       });
       time();
     }
@@ -109014,47 +109022,6 @@ app.controller('messages', function ($scope, $routeParams, data, toastr, $anchor
 
   getLast($scope.id);
 });
-/*
-app.directive('myTabs', function() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    scope: {},
-    controller: ['$scope', function MyTabsController($scope) {
-      var panes = $scope.panes = [];
-
-      $scope.select = function(pane) {
-        angular.forEach(panes, function(pane) {
-          pane.selected = false;
-        });
-        pane.selected = true;
-      };
-
-      this.addPane = function(pane) {
-        if (panes.length === 0) {
-          $scope.select(pane);
-        }
-        panes.push(pane);
-      };
-    }],
-    templateUrl: '/partials/my-tabs.html'
-  };
-})
-app.directive('myPane', function() {
-  return {
-    require: '^^myTabs',
-    restrict: 'E',
-    transclude: true,
-    scope: {
-      title: '@'
-    },
-    link: function(scope, element, attrs, tabsCtrl) {
-      tabsCtrl.addPane(scope);
-    },
-    templateUrl: '/partials/my-pane.html'
-  };
-});
-*/
 
 /***/ }),
 /* 235 */
