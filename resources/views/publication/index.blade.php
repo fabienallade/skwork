@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
-  <div class="container" ng-controller="publication">
-  	<h2 class="text-center">Publication dans lentreprise</h2>
+  <div class="container pt-4" ng-controller="publication">
+  <div class="jumbotron">
+	<h2 class="text-center">Publication dans lentreprise</h2>
+  </div>
 <div class="m-auto">
 <a href="{{ route('publication.create') }}" class="btn btn-outline-primary">Nouvelle publication</a>
 <hr>

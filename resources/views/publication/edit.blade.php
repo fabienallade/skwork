@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-<div class="card">
+<div class="container pt-4">
+<div class="card shadow-lg">
   <div class="card-header bg-success">
     Modifier votre publication ici
   </div>

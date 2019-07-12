@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="container" ng-controller="publication">
-<div class="card " >
+<div class="container pt-4" ng-controller="publication">
+<div class="card shadow-md" >
 <div class="card-header bg-info text-white">
     <center>
         <fieldset>

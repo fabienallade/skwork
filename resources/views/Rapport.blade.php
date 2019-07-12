@@ -5,7 +5,7 @@
           {{ session('status') }}
       </div>
   @endif
-<div class="container" ng-controller="rapport">
+<div class="container pt-4" ng-controller="rapport">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card shadow-lg">

@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,7 +27,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::createFromFormat("Y-m-d H:i:s",$value)->diffForHumans();
+    }
     public function publications()
     {
       return  $this->hasMany("Publication");
